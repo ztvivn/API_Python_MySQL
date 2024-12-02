@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление базой данных</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Система управления базой данных</h1>
+
+    <!-- Таблица организаций -->
+    <h2>Таблица организаций</h2>
+    <form method="POST" action="/organization/add">
+        <h3>Добавить новую организацию:</h3>
+        <label>Название организации:</label>
+        <input type="text" name="organization_name" required>
+        <label>Адрес:</label>
+        <input type="text" name="address" required>
+        <label>Фамилия руководителя:</label>
+        <input type="text" name="director_lastname" required>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Название организации</th>
+                <th>Адрес</th>
+                <th>Фамилия руководителя</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in organization_records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+                <td>
+                    <a href="{{ url_for('delete_organization', organization_name=record[0]) }}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Таблица корреспонденции -->
+    <h2>Таблица корреспонденции</h2>
+    <form method="POST" action="/correspondence/add">
+        <h3>Добавить новую корреспонденцию:</h3>
+        <label>Тип корреспонденции:</label>
+        <input type="text" name="correspondence_type" required>
+        <label>Дата подготовки:</label>
+        <input type="date" name="preparation_date" required>
+        <label>Название организации:</label>
+        <input type="text" name="organization_name" required>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Тип корреспонденции</th>
+                <th>Дата подготовки</th>
+                <th>Название организации</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in correspondence_records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+                <td>
+                    <a href="{{ url_for('delete_correspondence', organization_name=record[2]) }}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  flask-app:
+    build: .  # Строим Flask-приложение из текущей директории
+    ports:
+      - "5000:5000"  # Пробрасываем порт Flask(локально 5000)
+    volumes:
+      - .:/app  # Для синхронизации изменений в реальном времени
+    depends_on:
+      - mysql-db  # Flask зависит от MySQL
+
+  mysql-db:
+    image: mysql:8.0  # Официальный образ MySQL
+    restart: always  # Перезапуск в случае сбоя
+    environment:
+      MYSQL_ROOT_PASSWORD: yourpassword  # Пароль root
+      MYSQL_DATABASE: mail_database      # Имя базы данных
+      MYSQL_USER: user_name              # Имя пользователя
+      MYSQL_PASSWORD: password123        # Пароль пользователя
+    ports:
+      - "3306:3306"  # Пробрасываем порт MySQL(локально 3306)
+    volumes:
+      - mysql_data:/var/lib/mysql  # Сохраняем данные базы
+
+volumes:
+  mysql_data:  # Том для данных MySQL
